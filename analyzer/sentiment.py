@@ -1,14 +1,18 @@
 import logging
-from dotenv import load_dotenv
+import re
 
-from transformers import AutoModelForSequenceClassification
-from transformers import AutoTokenizer, AutoConfig
 import numpy as np
-from scipy.special import softmax
-from schema import SentimentModel
+from dotenv import load_dotenv
 from hezar.models import Model
 from openai import OpenAI
-import re
+from scipy.special import softmax
+from transformers import (
+    AutoConfig,
+    AutoModelForSequenceClassification,
+    AutoTokenizer,
+)
+
+from schema import SentimentModel
 
 
 class AnalyzeSentiment:

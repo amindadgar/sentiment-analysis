@@ -1,5 +1,6 @@
-import logging
 import json
+import logging
+
 from tqdm import tqdm
 
 from .text_cleaner import TextCleaner
