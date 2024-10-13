@@ -21,9 +21,12 @@ if __name__ == "__main__":
         user_data[user] = user_sentiments
 
     # saving the sentiments
-    user_data
+    user_data_serializable = {
+        user: {sentiment.name: score for sentiment, score in scores.items()} 
+        for user, scores in user_data.items()
+    }
     with open("user_data.json", "w") as file:
-        json.dumps(user_data, file, indent=4)
+        json.dump(user_data_serializable, file, indent=4)
 
     # separating the sentiments for any future use
     # users = list(user_data.keys())
