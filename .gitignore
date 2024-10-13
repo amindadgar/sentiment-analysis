@@ -164,3 +164,4 @@ cython_debug/
 
 result.json
 main.ipynb
+*.json

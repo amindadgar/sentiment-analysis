@@ -1,3 +1,4 @@
+import logging
 import json
 from tqdm import tqdm
 
@@ -49,6 +50,6 @@ class Processor:
                 data_raw[name] = plain_messages
 
             except Exception as exp:
-                print(f"Error: {exp}")
+                logging.error(f"Error: {exp}!")
 
         return data_raw

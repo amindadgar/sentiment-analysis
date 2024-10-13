@@ -6,3 +6,5 @@ torchaudio==2.4.1
 torchvision==0.19.1
 hezar[nlp]==0.40.3
 matplotlib
+openai==1.51.2
+python-dotenv

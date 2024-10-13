@@ -1,13 +1,15 @@
+import logging
 import json
-import numpy as np
 
 from analyzer.sentiment import AnalyzeSentiment
 from schema import SentimentModel
 from utils.processor import Processor
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
     processor = Processor()
-    analyzer = AnalyzeSentiment()
+    analyzer = AnalyzeSentiment(load_openai=True)
 
     # the `result.json` is the telegram exported data
     data = processor.process_telegram_json("result.json")
@@ -15,21 +17,17 @@ if __name__ == "__main__":
     user_data: dict[str, dict[SentimentModel, float]] = {}
 
     for idx, (user, raw_messages) in enumerate(data.items()):
-        print(f"Processing user {user} messages. idx: {idx + 1}/{len(data.keys())}")
+        logging.info(
+            f"Processing user {user} messages. idx: {idx + 1}/{len(data.keys())}"
+        )
 
-        user_sentiments = analyzer.process_hezarai(texts=raw_messages)
+        user_sentiments = analyzer.process(texts=raw_messages)
         user_data[user] = user_sentiments
 
     # saving the sentiments
     user_data_serializable = {
-        user: {sentiment.name: score for sentiment, score in scores.items()} 
+        user: {sentiment.name: score for sentiment, score in scores.items()}
         for user, scores in user_data.items()
     }
-    with open("user_data.json", "w") as file:
+    with open("user_data_llm.json", "w") as file:
         json.dump(user_data_serializable, file, indent=4)
-
-    # separating the sentiments for any future use
-    # users = list(user_data.keys())
-    # positive_scores = [user_data[user].get(SentimentModel.positive, np.nan) for user in users]
-    # negative_scores = [user_data[user].get(SentimentModel.negative, np.nan) for user in users]
-    # neutral_scores = [user_data[user].get(SentimentModel.neutral, np.nan) for user in users]
